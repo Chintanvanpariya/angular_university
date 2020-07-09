@@ -1,0 +1,129 @@
+<br/>
+<p>
+  <button class="btn btn-primary" routerLink="/courses">Back</button>
+</p><br/>
+<div>
+  <table class="table table-bordered table-responsive table-striped">
+    <caption>
+      <button style="margin-left:5px;float:left" type="button" class="btn btn-primary" data-toggle="modal"
+              data-target="#scheduleform">
+        Add New Schedule
+      </button>
+      Course Schedule
+    </caption>
+    <thead class="thead-dark">
+    <tr>
+      <th>WeekDay</th>
+      <th>From time</th>
+      <th>To Time</th>
+      <th>Faculty ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngIf="!courseSchedule || courseSchedule.length==0"> No Course Schedule Data</tr>
+
+    <tr *ngFor="let item of courseSchedule">
+      <td>{{item.dayOfWeek | weekday}}</td>
+      <td>{{item.startTime }}</td>
+      <td>{{item.endTime}}</td>
+      <td>{{item.facultyId }}</td>
+    </tr>
+
+    </tbody>
+  </table>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="scheduleform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+     aria-hidden="true">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Schedule</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+
+          <form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
+
+            <!--Weekday-->
+            <div class="form-group">
+              <label><span class="markRed">*</span>Day of Week</label>
+              <select formControlName="dayOfWeek" class="form-control" type="number"
+                      [ngClass]="checkError('dayOfWeek')?'is-invalid':''">
+                <option [value]="" selected disabled></option>
+                <option [value]=1>Monday</option>
+                <option [value]=2>Tuesday</option>
+                <option [value]=3>Wednesday</option>
+                <option [value]=4>Thursday</option>
+                <option [value]=5>Friday</option>
+              </select>
+              <span class="text-danger" *ngIf="checkError('dayOfWeek')">Week Day Required</span>
+            </div>
+
+            <!--start time-->
+            <div class="form-group">
+              <label><span class="markRed">*</span>Start Time</label>
+              <input type="time" formControlName="startTime" class="form-control"
+                     placeholder="Enter time"
+                     step="60"
+                     min="12:00:00"
+                     max="19:00:00"
+                     [ngClass]="checkError('startTime')?'is-invalid':''">
+
+              <span class="text-danger" *ngIf="checkError('startTime')">
+                Start Time Required
+              </span>
+            </div>
+
+            <!--end time-->
+            <div class="form-group">
+              <label><span class="markRed">*</span>End Time</label>
+              <input type="time" formControlName="endTime" class="form-control"
+                     placeholder="Enter time"
+                     step="60"
+                     min="12:00"
+                     max="22:00"
+                     [ngClass]="checkError('endTime')?'is-invalid':''">
+
+              <span class="text-danger" *ngIf="checkError('endTime')">
+                End Time Required
+              </span>
+            </div>
+
+            <!--Faculty-->
+            <div class="form-group">
+              <label><span class="markRed">*</span>Faculty </label>
+              <select formControlName="facultyId" class="form-control"
+                      [ngClass]="checkError('facultyId')?'is-invalid':''">
+
+                <option [value]="" selected disabled></option>
+                <option *ngFor="let item of facultylist" [value]="item.facultyId">{{item.firstName+','+item.lastName}}</option>
+
+              </select>
+              <span class="text-danger" *ngIf="checkError('facultyId')">Faculty Required</span>
+            </div>
+
+            <div class="button-group d-flex justify-content-center">
+              <button type="button" class="btn btn-success" type="submit" style="margin-right:10px">Add
+                Schedule
+              </button>
+              <button type="button" class="btn btn-outline-danger" type="reset" (click)="onReset()"
+                      data-dismiss="modal">
+                <span style="font-size:15px">&#10005; </span> Cancel
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

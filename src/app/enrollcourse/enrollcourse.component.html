@@ -1,0 +1,33 @@
+
+<div class="tableHeight">
+  <table class="table table-bordered table-responsive table-striped text-center">
+    <caption>
+      <button style="margin-left:5px;float:left" type="button" class="btn btn-primary" routerLink="/students">Back</button>
+      Course Data</caption>
+    <thead class="thead-dark">
+    <tr>
+      <th>Course ID</th>
+      <th>Course Code</th>
+      <th>Title</th>
+      <th>Status/Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngIf="!courselist || courselist.length==0"> No Course data</tr>
+
+    <tr *ngFor="let item of courselist">
+      <td>{{item.courseId}}</td>
+      <td>{{item.courseCode}}</td>
+      <td>{{item.title}}</td>
+      <td class="text-uppercase text-success">
+        <span *ngIf="checkIdpresence(item.courseId);else showEnroll"> &#10004; Enrolled </span>
+        <ng-template #showEnroll>
+          <button class="btn btn-sm btn-outline-info" (click)="enrollCourse(item.courseId)">Enroll Now</button>
+        </ng-template>
+
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+</div>

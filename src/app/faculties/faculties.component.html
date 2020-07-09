@@ -1,0 +1,220 @@
+
+<div class="container-fluid">
+  <div class="tableHeight">
+    <table class="table table-bordered table-responsive table-striped">
+      <caption>
+        <button style="margin-left:5px;float:left" type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#facultyform">
+          Add New Faculty
+        </button>
+        Faculty Data List
+      </caption>
+      <thead class="thead-dark">
+      <tr>
+        <th>Faculty ID</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Gender</th>
+        <th>Date of Birth</th>
+        <th>Designation</th>
+        <th>Salary</th>
+        <th>Address</th>
+        <th>View Assigned Courses</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngIf="!facultylist || facultylist.length==0"> <td>{{statusMessage}}</td></tr>
+
+      <tr *ngFor="let item of facultylist">
+        <td>{{item.facultyId}}</td>
+        <td>{{item.firstName}}</td>
+        <td>{{item.lastName}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.phone}}</td>
+        <td>{{item.gender}}</td>
+        <td>{{item.dob | date:'MMM d, y'}}</td>
+        <td>{{item.designation}}</td>
+        <td>{{item.salary | currency : 'USD' }}</td>
+        <td>{{item.address.streetAddress_1 + ', ' +
+        item.address.streetAddress_2 +
+        item.address.city + ', ' +
+        item.address.state + ', ' +
+        item.address.zip
+          }}
+        </td>
+        <td>
+          <a [routerLink]="['/facultycourses',item.facultyId]">
+            <button class="btn btn-info btn-md">View</button>
+          </a>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="facultyform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Student</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+
+          <form [formGroup]="facultyForm" (ngSubmit)="onSubmit()">
+
+            <div class="row">
+
+              <div class="col-sm-6 ">
+
+                <!--first-->
+                <div class="form-group">
+                  <label><span class="markRed">*</span>First Name</label>
+                  <input type="text" formControlName="firstName" class="form-control"
+                         [ngClass]="checkError('firstName')?'is-invalid':''"/>
+                  <span class="text-danger" *ngIf="checkError('firstName')">First Name is required and must be between 3 to 20 character.</span>
+                </div>
+                <!--last-->
+                <div class="form-group">
+                  <label><span class="markRed">*</span>Last Name</label>
+                  <input type="text" formControlName="lastName" class="form-control"
+                         [ngClass]="checkError('lastName')?'is-invalid':''"/>
+                  <span class="text-danger" *ngIf="checkError('lastName')">Last Name is required and must be between 3 to 20 character.</span>
+                </div>
+                <!--dob-->
+                <div class="form-group">
+                  <label><span class="markRed">*</span>Date of Birth</label>
+                  <input type="date" formControlName="dob" [max]="today" class="form-control"
+                         [ngClass]="checkError('dob')?'is-invalid':''"/>
+                  <span class="text-danger" *ngIf="checkError('dob')">Dob is required</span>
+                </div>
+                <!--gender-->
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+
+                    <label class="form-check-label"><span class="markRed">*</span>Gender :</label>
+                  </div>
+                  <!--                 [ngClass]="studentForm.get('gender').untouched ?'border border-danger':''">-->
+
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="gender" value="Male">
+                    <label class="form-check-label"> Male</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="gender" value="Female">
+                    <label class="form-check-label"> Female</label>
+                  </div>
+                </div>
+                <!--email-->
+                <div class="form-group">
+                  <label><span class="markRed">*</span>Email</label>
+                  <input type="email" formControlName="email" class="form-control"
+                         [ngClass]="checkError('email')?'is-invalid':''"/>
+                  <span class="text-danger"
+                        *ngIf="checkError('email')">Email is required and in format (john@xyx.com)</span>
+                  <span class="text-danger"
+                        *ngIf="emailerror">Email is already present. Choose a different email.</span>
+                </div>
+                <!--phone-->
+                <div class="form-group">
+                  <label><span class="markRed">*</span>Phone</label>
+                  <input type="number" formControlName="phone" class="form-control"
+                         [ngClass]="checkError('phone')?'is-invalid':''"/>
+                  <span class="text-danger" *ngIf="checkError('phone')">Phone is required and must be 10 digits.</span>
+                </div>
+
+                <!--designation-->
+                <div class="form-group">
+                  <label><span class="markRed">*</span>Designation</label>
+                  <select formControlName="designation" class="form-control"
+                          [ngClass]="checkError('designation')?'is-invalid':''">
+                    <option value="" selected disabled></option>
+                    <option value="Professor">Professor</option>
+                    <option value="Associate Professor">Associate Professor</option>
+                    <option value="Assistant Professor">Assistant Professor</option>
+                    <option value="Instructor">Instructor</option>
+
+                  </select>
+                  <span class="text-danger" *ngIf="checkError('designation')">Designation is required </span>
+                </div>
+
+                <!--salary-->
+                <div class="form-group">
+                  <label><span class="markRed">*</span>Salary</label>
+                  <input type="number" formControlName="salary" class="form-control"
+                         [ngClass]="checkError('salary')?'is-invalid':''"/>
+                  <span class="text-danger" *ngIf="checkError('salary')">Salary is required.</span>
+                </div>
+
+              </div>
+
+              <div class="col-sm-6" formGroupName="address">
+
+                <!--line 1-->
+                <div class="form-group">
+                  <label><span class="markRed">*</span>Address Line 1</label>
+                  <input type="text" formControlName="streetAddress_1" class="form-control"
+                         [ngClass]="checkError('streetAddress_1','address')?'is-invalid':''"/>
+                  <span class="text-danger"
+                        *ngIf="checkError('streetAddress_1','address')">Address Line 1 is required</span>
+                </div>
+                <!--line 2-->
+                <div class="form-group">
+                  <label>Address Line 2</label>
+                  <input type="text" formControlName="streetAddress_2" class="form-control"/>
+                </div>
+                <!--city-->
+                <div class="form-group">
+                  <label><span class="markRed">*</span>City</label>
+                  <input type="text" formControlName="city" class="form-control"
+                         [ngClass]="checkError('city','address')?'is-invalid':''"/>
+                  <span class="text-danger" *ngIf="checkError('city','address')">Address Line 1 is required</span>
+                </div>
+                <!--state-->
+                <div class="form-group">
+                  <label><span class="markRed">*</span>State</label>
+                  <select formControlName="state" class="form-control"
+                          [ngClass]="checkError('state','address')?'is-invalid':''">
+                    <option [value]="" selected disabled></option>
+                    <option *ngFor="let item of states" [value]="item.name">{{item.name}}</option>
+                  </select>
+                  <span class="text-danger" *ngIf="checkError('state','address')">State is required</span>
+                </div>
+                <!--zipcode-->
+                <div class="form-group">
+                  <label><span class="markRed">*</span>ZipCode</label>
+                  <input type="text" formControlName="zip" class="form-control"
+                         [ngClass]="checkError('zip','address')?'is-invalid':''">
+                  <span class="text-danger" *ngIf="checkError('zip','address')">State is required</span>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="button-group d-flex justify-content-center">
+              <button type="button" class="btn btn-success" type="submit" style="margin-right:10px">
+                Add Faculty
+              </button>
+              <button type="button" class="btn btn-outline-danger" type="reset" (click)="onReset()"
+                      data-dismiss="modal">
+                <span style="font-size:15px">&#10005; </span> Cancel
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
