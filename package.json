@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "angular-university",
   "version": "0.0.0",
   "engines": {
     "node": "~14.3.0",
@@ -12,9 +12,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --output-path Angularsity  --aot --prod"
+    "postinstall": "ng build --output-path angular_university  --aot --prod"
   },
-
   "private": true,
   "dependencies": {
     "@angular/animations": "~9.1.1",
@@ -52,5 +51,4 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0"
   }
-
 }
