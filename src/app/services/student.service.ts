@@ -23,7 +23,7 @@ export class StudentService {
     }));
   }
 
-  addStudent(body): Observable<IStudent> {
+  addStudent(body:any): Observable<IStudent> {
     let url = environment.baseUrl+`Students`;
 
     return this._http.post<IStudent>(url, body).pipe(map(response => {

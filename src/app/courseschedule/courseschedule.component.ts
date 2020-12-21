@@ -15,10 +15,10 @@ declare var $: any;
 })
 export class CoursescheduleComponent implements OnInit {
 
-  courseId:number;
+  courseId:number| undefined;;
   courseSchedule: any = [];
   facultylist: IFaculty[] = [];
-  scheduleForm: FormGroup;
+  scheduleForm:any;
 
   constructor(
     private route: ActivatedRoute,
@@ -76,7 +76,7 @@ export class CoursescheduleComponent implements OnInit {
   }
 
 
-  checkError(value) {
+  checkError(value:any) {
     return (this.scheduleForm.get(value).invalid &&
       (this.scheduleForm.get(value).touched || this.scheduleForm.get(value).dirty));
   }

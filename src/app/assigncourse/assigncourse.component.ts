@@ -10,7 +10,7 @@ import {CourseService} from '../services/course.service';
 })
 export class AssigncourseComponent implements OnInit {
 
-  facultyId: number;
+  facultyId: number | undefined;
   courselist: ICourse[] = [];
   coursesTaught: number[] = [];
 

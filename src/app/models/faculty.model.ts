@@ -1,6 +1,6 @@
 import {IAddress} from './address.model';
 
-export class IFaculty {
+export interface IFaculty {
 
   facultyId: number;
   firstName: string;

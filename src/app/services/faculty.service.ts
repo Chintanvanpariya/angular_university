@@ -23,7 +23,7 @@ export class FacultyService {
     }));
   }
 
-  addFaculty(body): Observable<IFaculty> {
+  addFaculty(body:any): Observable<IFaculty> {
     let url = environment.baseUrl+`Faculties`;
 
     return this._http.post<IFaculty>(url, body).pipe(map(response => {

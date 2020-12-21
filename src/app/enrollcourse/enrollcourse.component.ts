@@ -10,7 +10,7 @@ import {ICourse} from '../models/course.model';
 })
 export class EnrollcourseComponent implements OnInit {
 
-  studentid: number;
+  studentid: number| undefined;;
   courselist: ICourse[] = [];
   enrolledcourseIds: number[] = [];
 

@@ -15,7 +15,7 @@ export class CoursesComponent implements OnInit {
 
   statusMessage="Fetching Data, please wait....";
   courselist: ICourse[] = [];
-  courseForm: FormGroup;
+  courseForm: any;
 
   constructor(
     private courseService: CourseService,

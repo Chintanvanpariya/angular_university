@@ -16,7 +16,7 @@ export class StudentsComponent implements OnInit {
 
   statusMessage="Fetching Data, please wait....";
   studentlist: IStudent[] = [];
-  studentForm: FormGroup;
+  studentForm: any|FormGroup;
   states = data;
   today = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().substring(0, 10);
 

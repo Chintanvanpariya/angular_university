@@ -25,7 +25,7 @@ export class CourseService {
   }
 
   //add new course
-  addCourse(body): Observable<ICourse> {
+  addCourse(body:any): Observable<ICourse> {
     let url = environment.baseUrl+`Courses`;
 
     return this._http.post<ICourse>(url, body);
@@ -41,7 +41,7 @@ export class CourseService {
   }
 
   // add new schedule to a course
-  addSchedule(body): Observable<ICourseSchedule> {
+  addSchedule(body:any): Observable<ICourseSchedule> {
     let url = environment.baseUrl+`Courses/${body.courseId}/schedule`;
 
     return this._http.post<ICourseSchedule>(url, body);
